@@ -1,11 +1,10 @@
 import { api } from './client';
-import { ExpenseListSchema } from '../schemas/expense';
+import { ExpenseSummaryListSchema } from '../schemas/expenses';
 
-export const fetchMonthlyExpenses = async (month: string) => {
-  const res = await api.get<{ data: unknown }>(`/expenses?month=${month}`);
-  return ExpenseListSchema.parse(res.data);
-};
+export const fetchExpenseSummary = async (month: string, groupBy: string = 'category') => {
+  const res = await api.get<{ data: unknown }>(
+    `/expenses?mode=summary&month=${month}&group_by=${groupBy}`
+  );
 
-export const deleteExpense = async (id: string) => {
-  await api.delete(`/expenses/${id}`);
+  return ExpenseSummaryListSchema.parse(res.data);
 };

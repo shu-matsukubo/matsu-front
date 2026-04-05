@@ -22,6 +22,9 @@
 .bg-purple {
   background-color: #9b59b6;
 }
+.bg-yellow {
+  background-color: #f7d154;
+}
 
 /* 文字色 */
 .text-black {
@@ -44,4 +47,7 @@
 }
 .text-purple {
   color: #9b59b6;
+}
+.text-yellow {
+  color: #f7d154;
 }

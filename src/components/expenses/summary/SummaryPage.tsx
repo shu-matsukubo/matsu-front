@@ -1,9 +1,8 @@
 import { BalanceTable } from './BalanceTable';
-import { SummaryTable } from './SummaryTable';
-import { useSummary } from '../../hooks/summary/useSummary';
+import { useSummary } from '../../../hooks/expenses/summary/useSummary';
 
 export const SummaryPage = () => {
-  const { currentMonth, changeMonth, data, isLoading, handleDelete } = useSummary();
+  const { currentMonth, changeMonth, summary, isLoading } = useSummary();
 
   if (isLoading) return <p>Loading...</p>;
 
@@ -14,8 +13,7 @@ export const SummaryPage = () => {
       <button onClick={() => changeMonth(-1)}>←</button>
       <button onClick={() => changeMonth(1)}>→</button>
 
-      <BalanceTable data={data} />
-      <SummaryTable data={data} onDelete={handleDelete} />
+      <BalanceTable data={summary} />
     </div>
   );
 };
