@@ -1,13 +1,9 @@
 import { useState } from 'react';
 
 import './App.css';
-import { CreatePage } from './pages/CreatePage';
-import SummaryIndex from './pages/SummaryIndex';
-import './styles/base.css';
-import './styles/utilities/colors.css';
-import './styles/utilities/layout.css';
-import './styles/utilities/spacing.css';
-import './styles/utilities/typography.css';
+import { CreatePage } from './pages/expenses/CreatePage';
+import SummaryIndex from './pages/expenses/SummaryIndex';
+import './styles/utilities/index.css';
 
 function App() {
   const [page, setPage] = useState<'summary' | 'create'>('summary');

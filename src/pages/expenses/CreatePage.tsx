@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useExpenseApi } from '../hooks/expenses/api/useCreateApi';
+import { useExpenseApi } from '../../hooks/expenses/api/useCreateApi';
 
 export const CreatePage = ({ onBack }) => {
   const { paymentMethodsQuery, categoriesQuery, createExpense } = useExpenseApi();

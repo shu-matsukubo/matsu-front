@@ -1,5 +1,5 @@
 import { INITIAL_BALANCE, PAYMENT_METHOD_KEYS, PAYMENT_METHODS } from '../constants/expenses';
-import type { Expense } from '../types/expenses';
+import type { Expense } from '../types/expenses/expenses';
 
 export const calculateBalances = (data: Expense[]) => {
   const summary: Record<string, { amount: number; point: number }> = {};

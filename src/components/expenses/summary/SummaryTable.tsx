@@ -1,6 +1,6 @@
 import { getPaymentMethod } from '../../../utils/expenseUtil.ts';
 
-import type { Expense } from '../../../types/expenses.ts';
+import type { Expense } from '../../../types/expenses/expenses.ts';
 
 export const SummaryTable = ({
   data,
