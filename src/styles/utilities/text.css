@@ -1,0 +1,48 @@
+/* text align */
+.text-left { text-align: left; }
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+
+/* font size（最低限） */
+.text-sm { font-size: 12px; }
+.text-md { font-size: 14px; }
+.text-lg { font-size: 16px; }
+
+/* font weight */
+.font-bold { font-weight: bold; }
+
+/* color */
+.text-primary-500 { color: var(--color-primary-500); }
+.text-primary-700 { color: var(--color-primary-700); }
+
+.text-gray-500 { color: var(--color-gray-500); }
+.text-gray-900 { color: var(--color-gray-900); }
+
+/* hover */
+.hover\:text-primary-500:hover {
+  color: var(--color-primary-500);
+}
+
+/* active */
+.active\:text-primary-700:active {
+  color: var(--color-primary-700);
+}
+
+/* focus */
+.focus\:text-primary-500:focus {
+  color: var(--color-primary-500);
+}
+.focus\:text-primary-700:focus {
+  color: var(--color-primary-700);
+}
+
+/* focus-visible */
+.focus-visible\:text-primary-500:focus-visible {
+  color: var(--color-primary-500);
+}
+
+/* disabled */
+.disabled\:text-gray-300:disabled {
+  color: var(--color-gray-300);
+}
+

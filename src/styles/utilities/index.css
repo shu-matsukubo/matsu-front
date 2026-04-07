@@ -1,4 +1,5 @@
 @import "../tokens/spacing.css";
+@import "../tokens/colors.css";
 
 @import "./flex.css";
 @import "./grid.css";
@@ -7,3 +8,7 @@
 @import "./size.css";
 @import "./overflow.css";
 @import "./display.css";
+@import "./text.css";
+@import "./border.css";
+@import "./background.css";
+
