@@ -20,9 +20,9 @@ export const SummaryPage = () => {
         <button onClick={() => setGroupBy('date')}>カレンダー</button>
       </div>
 
-      {groupBy === 'date' && <Calendar data={calendarData} currentMonth={currentMonth} />}
       {groupBy === 'category' && <BalanceTable data={summary} />}
       {groupBy === 'payment_method' && <BalanceTable data={summary} />}
+      {groupBy === 'date' && <Calendar data={calendarData} currentMonth={currentMonth} />}
     </div>
   );
 };
