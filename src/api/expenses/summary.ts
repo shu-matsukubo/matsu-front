@@ -1,5 +1,5 @@
-import { api } from './client';
-import { ExpenseSummaryListSchema } from '../schemas/expenses';
+import { api } from '../client';
+import { ExpenseSummaryListSchema } from '../../schemas/expenses/summary';
 
 export const fetchExpenseSummary = async (month: string, groupBy: string = 'category') => {
   const res = await api.get<{ data: unknown }>(

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchExpenseSummary } from '../../../api/expenses';
+import { fetchExpenseSummary } from '../../../api/expenses/summary';
 import { formatMonth } from '../../../utils/dateUtil';
 
 export const useSummaryApi = (currentMonth: Date, groupBy: string) => {

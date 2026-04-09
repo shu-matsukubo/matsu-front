@@ -1,6 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { api } from '../../../api/client';
+import type { ExpensesCreate } from '../../../types/expenses/create';
+import { fetchExpensePaymentMethod, fetchExpenseCategory } from '../../../api/expenses/master';
+import { fetchExpenseCreate } from '../../../api/expenses/create';
 
 export const useExpenseApi = () => {
   const queryClient = useQueryClient();
@@ -8,35 +10,22 @@ export const useExpenseApi = () => {
   // マスタ取得
   const paymentMethodsQuery = useQuery({
     queryKey: ['paymentMethods'],
-    queryFn: async () => {
-      const res = await api.get<{ data: unknown[] }>('/payment-methods');
-      return res.data;
-    },
+    queryFn: async () => fetchExpensePaymentMethod(),
   });
 
   const categoriesQuery = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => {
-      const res = await api.get<{ data: unknown[] }>('/categories');
-      return res.data;
-    },
+    queryFn: async () => fetchExpenseCategory(),
   });
 
   // 登録処理
   const createMutation = useMutation({
-    mutationFn: async (payload: {
-      amount: number;
-      point_amount: number;
-      payment_method_id: string;
-      category_id: string;
-      memo: string;
-      date: string;
-    }) => {
-      await api.post('/expenses', payload);
+    mutationFn: async (payload: ExpensesCreate) => {
+      fetchExpenseCreate(payload);
     },
     onSuccess: () => {
       // 月次一覧を更新
-      queryClient.invalidateQueries({ queryKey: ['monthlyExpenses'] });
+      queryClient.invalidateQueries({ queryKey: ['expenseSummary'] });
     },
   });
 

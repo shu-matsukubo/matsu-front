@@ -1,21 +1,9 @@
 import { useState, useMemo } from 'react';
 import { addMonth } from '../../../utils/dateUtil';
 import { useSummaryApi } from '../api/useSummaryApi';
-
-type CalendarCell = {
-  date: string;
-  day: number;
-  net_amount: number;
-  transaction_count: number;
-  type: 'normal' | 'empty' | 'future';
-};
-
-const formatDate = (d: Date) => {
-  const y = d.getFullYear();
-  const m = String(d.getMonth() + 1).padStart(2, '0');
-  const day = String(d.getDate()).padStart(2, '0');
-  return `${y}-${m}-${day}`;
-};
+import type { CalendarCell } from '../../../types/expenses/summary';
+import { formatDate } from '../../../utils/dateUtil';
+import { isSameDay } from '../../../utils/dateUtil';
 
 export const useSummary = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -49,15 +37,13 @@ export const useSummary = () => {
 
       let type: CalendarCell['type'] = 'normal';
 
-      const isSameDay =
-        d.getFullYear() === today.getFullYear() &&
-        d.getMonth() === today.getMonth() &&
-        d.getDate() === today.getDate();
-
-      if (d > today && !isSameDay) {
-        type = 'future';
-      } else if (d < today && net === 0) {
-        type = 'empty';
+      // 未来日、過去日のうち支払いが0円だった日、それ以外の日で区切る
+      if (!isSameDay) {
+        if (d > today) {
+          type = 'future';
+        } else if (d < today && net === 0) {
+          type = 'empty';
+        }
       }
 
       result.push({

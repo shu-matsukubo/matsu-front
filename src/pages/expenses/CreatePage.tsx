@@ -1,8 +1,8 @@
 import { useState } from 'react';
-
 import { useExpenseApi } from '../../hooks/expenses/api/useCreateApi';
+import type { VoidProps } from '../../types/common';
 
-export const CreatePage = ({ onBack }) => {
+export const CreatePage = ({ onBack }: VoidProps) => {
   const { paymentMethodsQuery, categoriesQuery, createExpense } = useExpenseApi();
 
   const [amount, setAmount] = useState('');
