@@ -4,6 +4,9 @@ import './App.css';
 import { CreatePage } from './pages/expenses/CreatePage';
 import SummaryIndex from './pages/expenses/SummaryIndex';
 import './styles/utilities/index.css';
+import './styles/index.css';
+import { IconSample } from './components/icons';
+import { Button } from './components/common/Button';
 
 function App() {
   const [page, setPage] = useState<'summary' | 'create'>('summary');
@@ -15,7 +18,9 @@ function App() {
 
       {page === 'summary' && (
         <>
-          <button onClick={() => setPage('create')}>＋追加</button>
+          <Button onClick={() => setPage('create')} leftIcon={<IconSample />}>
+            追加
+          </Button>
         </>
       )}
     </div>

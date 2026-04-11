@@ -1,9 +1,9 @@
 import { useState, useMemo } from 'react';
-import { addMonth } from '../../../utils/dateUtil';
-import { useSummaryApi } from '../api/useSummaryApi';
-import type { CalendarCell } from '../../../types/expenses/summary';
-import { formatDate } from '../../../utils/dateUtil';
-import { isSameDay } from '../../../utils/dateUtil';
+import { addMonth } from '@/utils/date/get';
+import { useSummaryApi } from '@/hooks/expenses/api/useSummaryApi';
+import type { CalendarCell } from '@/types/expenses/summary';
+import { formatDate } from '@/utils/date/format';
+import { isSameDay } from '@/utils/date/compare';
 
 export const useSummary = () => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -38,13 +38,14 @@ export const useSummary = () => {
       let type: CalendarCell['type'] = 'normal';
 
       // 未来日、過去日のうち支払いが0円だった日、それ以外の日で区切る
-      if (!isSameDay) {
+      if (!isSameDay(d, today)) {
         if (d > today) {
           type = 'future';
         } else if (d < today && net === 0) {
           type = 'empty';
         }
       }
+      console.log(type);
 
       result.push({
         date: key,

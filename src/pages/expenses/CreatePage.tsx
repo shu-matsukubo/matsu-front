@@ -1,8 +1,12 @@
 import { useState } from 'react';
-import { useExpenseApi } from '../../hooks/expenses/api/useCreateApi';
-import type { VoidProps } from '../../types/common';
+import { useExpenseApi } from '@/hooks/expenses/api/useCreateApi';
+import { Plus } from 'lucide-react';
+import { Button } from '@/components/common/Button';
 
-export const CreatePage = ({ onBack }: VoidProps) => {
+export type Props = {
+  onBack: () => void;
+};
+export const CreatePage = ({ onBack }: Props) => {
   const { paymentMethodsQuery, categoriesQuery, createExpense } = useExpenseApi();
 
   const [amount, setAmount] = useState('');
@@ -59,8 +63,12 @@ export const CreatePage = ({ onBack }: VoidProps) => {
       <input value={memo} onChange={e => setMemo(e.target.value)} placeholder="メモ" />
       <input type="date" value={date} onChange={e => setDate(e.target.value)} />
 
-      <button onClick={onBack}>戻る</button>
-      <button onClick={handleSubmit}>登録</button>
+      <Button variant="secondary" onClick={onBack}>
+        戻る
+      </Button>
+      <Button onClick={handleSubmit} leftIcon={<Plus size={16} />}>
+        登録
+      </Button>
     </div>
   );
 };

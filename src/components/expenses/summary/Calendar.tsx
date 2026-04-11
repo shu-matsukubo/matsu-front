@@ -1,29 +1,22 @@
 import type { FC } from 'react';
+import { WEEK_DAYS } from '@/utils/date/constants';
+import type { CalendarCell } from '@/types/expenses/summary';
+import { getFirstDay } from '@/utils/date/get';
 
-type Cell = {
-  date: string;
-  day: number;
-  net_amount: number;
-  transaction_count: number;
-  type: 'normal' | 'empty' | 'future';
-};
-
-type Props = {
-  data: Cell[];
+export type Props = {
+  data: CalendarCell[];
   currentMonth: Date;
 };
 
-const WEEK = ['日', '月', '火', '水', '木', '金', '土'];
-
 export const Calendar: FC<Props> = ({ data, currentMonth }) => {
-  const firstDay = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), 1).getDay();
+  const firstDay = getFirstDay(currentMonth);
 
-  const getBgClass = (type: Cell['type']) => {
+  const getCellClass = (type: CalendarCell['type']) => {
     switch (type) {
       case 'empty':
-        return 'bg-primary-500';
+        return 'calendar-cell--empty';
       case 'future':
-        return 'bg-gray-100';
+        return 'calendar-cell--future';
       default:
         return '';
     }
@@ -32,7 +25,7 @@ export const Calendar: FC<Props> = ({ data, currentMonth }) => {
   return (
     <div className="w-full">
       <div className="grid grid-cols-7 gap-2">
-        {WEEK.map(d => (
+        {WEEK_DAYS.map(d => (
           <div key={d} className="text-center">
             {d}
           </div>
@@ -45,11 +38,7 @@ export const Calendar: FC<Props> = ({ data, currentMonth }) => {
         ))}
 
         {data.map(cell => (
-          <div
-            key={cell.date}
-            className={`p-2 border flex flex-col ${getBgClass(cell.type)}`}
-            style={{ minHeight: 80 }}
-          >
+          <div key={cell.date} className={`calendar-cell ${getCellClass(cell.type)}`}>
             <div>{cell.day}</div>
 
             <div className="mt-1 flex flex-row items-center gap-1">

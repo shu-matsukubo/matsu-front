@@ -1,4 +1,4 @@
-import type { ExpenseSummary } from '../../../schemas/expenses/summary';
+import type { ExpenseSummary } from '@/schemas/expenses/summary';
 
 type Props = {
   data: ExpenseSummary[];

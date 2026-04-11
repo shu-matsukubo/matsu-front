@@ -1,8 +1,8 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 
-import type { ExpensesCreate } from '../../../types/expenses/create';
-import { fetchExpensePaymentMethod, fetchExpenseCategory } from '../../../api/expenses/master';
-import { fetchExpenseCreate } from '../../../api/expenses/create';
+import type { ExpensesCreate } from '@/types/expenses/create';
+import { fetchExpensePaymentMethod, fetchExpenseCategory } from '@/api/expenses/master';
+import { fetchExpenseCreate } from '@/api/expenses/create';
 
 export const useExpenseApi = () => {
   const queryClient = useQueryClient();

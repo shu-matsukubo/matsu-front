@@ -1,0 +1,37 @@
+.calendar-cell {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+
+  min-height: 80px;
+
+  border: 1px solid var(--color-border);
+  cursor: pointer;
+
+  background-color: var(--color-white);
+  transition: background-color 0.2s;
+}
+
+/* variants */
+.calendar-cell--empty {
+  background-color: var(--color-primary-500);
+}
+
+.calendar-cell--future {
+  background-color: var(--color-gray-500);
+}
+
+/* hover */
+.calendar-cell:hover {
+  background-color: var(--color-primary-700);
+}
+
+/* active */
+.calendar-cell:active {
+  background-color: var(--color-primary-900);
+}
+
+/* focus */
+.calendar-cell:focus-visible {
+  outline: 2px solid var(--color-primary-500);
+}

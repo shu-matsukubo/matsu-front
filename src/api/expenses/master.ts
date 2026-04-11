@@ -1,8 +1,8 @@
-import { api } from '../client';
+import { api } from '@/api/client';
 import {
   ExpensePaymentMethodListSchema,
   ExpenseCategoryListSchema,
-} from '../../schemas/expenses/master';
+} from '@/schemas/expenses/master';
 
 export const fetchExpensePaymentMethod = async () => {
   const res = await api.get<{ data: unknown }>('/payment-methods');
