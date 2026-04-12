@@ -18,6 +18,16 @@ export const ExpenseSummarySchema = z.object({
   date: z.string().optional(),
 });
 
-export const ExpenseSummaryListSchema = z.array(ExpenseSummarySchema);
+export const ExpenseSummaryMetaSchema = z.object({
+  total_net_amount: z.number(),
+  fixed_cost_net_amount: z.number(),
+});
+
+export const ExpenseSummaryResponseSchema = z.object({
+  data: z.array(ExpenseSummarySchema),
+  meta: ExpenseSummaryMetaSchema,
+});
 
 export type ExpenseSummary = z.infer<typeof ExpenseSummarySchema>;
+export type ExpenseSummaryMeta = z.infer<typeof ExpenseSummaryMetaSchema>;
+export type ExpenseSummaryResponse = z.infer<typeof ExpenseSummaryResponseSchema>;

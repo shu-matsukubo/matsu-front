@@ -1,11 +1,12 @@
 import { BalanceTable } from './BalanceTable';
 import { Calendar } from './Calendar';
+import { TotalTable } from './TotalTable';
 import { useSummary } from '@/hooks/expenses/summary/useSummary';
 import { ButtonGroup } from '@/components/common/ButtonGroup';
 import { Button } from '@/components/common/Button';
 
 export const SummaryPage = () => {
-  const { currentMonth, changeMonth, groupBy, setGroupBy, summary, calendarData, isLoading } =
+  const { currentMonth, changeMonth, groupBy, setGroupBy, summary, meta, calendarData, isLoading } =
     useSummary();
   if (isLoading) return <p>Loading...</p>;
 
@@ -16,10 +17,13 @@ export const SummaryPage = () => {
           ←
         </Button>
         {currentMonth.toISOString().slice(0, 7)}
-        <Button variant="secondary" onClick={() => changeMonth(-1)}>
+        <Button variant="secondary" onClick={() => changeMonth(+1)}>
           →
         </Button>
       </div>
+
+      <TotalTable data={meta} />
+
       <div className="flex justify-center">
         <ButtonGroup
           value={groupBy}
