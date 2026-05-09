@@ -1,33 +1,29 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-import type { ExpensesCreate } from '@/types/expenses/create';
-import { fetchExpensePaymentMethod, fetchExpenseCategory } from '@/api/expenses/master';
 import { fetchExpenseCreate } from '@/api/expenses/create';
-const defaultMasterResponse = {
-  data: [],
-};
+import { fetchExpenseCategory, fetchExpensePaymentMethod } from '@/api/expenses/master';
+import type { ExpenseCategory, ExpensePaymentMethod } from '@/schemas/expenses/master';
+import type { ExpensesCreate } from '@/types/expenses/create';
+
+const defaultPaymentMethods: ExpensePaymentMethod[] = [];
+const defaultCategories: ExpenseCategory[] = [];
 
 export const useExpenseApi = () => {
   const queryClient = useQueryClient();
 
-  // マスタ取得
   const paymentMethodsQuery = useQuery({
     queryKey: ['paymentMethods'],
-    queryFn: async () => fetchExpensePaymentMethod(),
+    queryFn: fetchExpensePaymentMethod,
   });
 
   const categoriesQuery = useQuery({
     queryKey: ['categories'],
-    queryFn: async () => fetchExpenseCategory(),
+    queryFn: fetchExpenseCategory,
   });
 
-  // 登録処理
   const createMutation = useMutation({
-    mutationFn: async (payload: ExpensesCreate) => {
-      fetchExpenseCreate(payload);
-    },
+    mutationFn: (payload: ExpensesCreate) => fetchExpenseCreate(payload),
     onSuccess: () => {
-      // 月次一覧を更新
       queryClient.invalidateQueries({ queryKey: ['expenseSummary'] });
     },
   });
@@ -35,8 +31,9 @@ export const useExpenseApi = () => {
   return {
     paymentMethodsQuery,
     categoriesQuery,
-    paymentMethodsData: paymentMethodsQuery.data ?? defaultMasterResponse,
-    categoriesData: categoriesQuery.data ?? defaultMasterResponse,
+    paymentMethodsData: paymentMethodsQuery.data ?? defaultPaymentMethods,
+    categoriesData: categoriesQuery.data ?? defaultCategories,
     createExpense: createMutation.mutateAsync,
+    isCreating: createMutation.isPending,
   };
 };

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 import './App.css';
-import { CreatePage } from './pages/expenses/CreatePage';
+import CreateIndex from './pages/expenses/CreateIndex';
 import SummaryIndex from './pages/expenses/SummaryIndex';
 import './styles/utilities/index.css';
 import './styles/index.css';
@@ -14,7 +14,7 @@ function App() {
   return (
     <div className="flex flex-col items-center p-4">
       {page === 'summary' && <SummaryIndex />}
-      {page === 'create' && <CreatePage onBack={() => setPage('summary')} />}
+      {page === 'create' && <CreateIndex onBack={() => setPage('summary')} />}
 
       {page === 'summary' && (
         <>
