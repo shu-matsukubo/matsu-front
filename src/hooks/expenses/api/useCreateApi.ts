@@ -3,6 +3,9 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { ExpensesCreate } from '@/types/expenses/create';
 import { fetchExpensePaymentMethod, fetchExpenseCategory } from '@/api/expenses/master';
 import { fetchExpenseCreate } from '@/api/expenses/create';
+const defaultMasterResponse = {
+  data: [],
+};
 
 export const useExpenseApi = () => {
   const queryClient = useQueryClient();
@@ -32,6 +35,8 @@ export const useExpenseApi = () => {
   return {
     paymentMethodsQuery,
     categoriesQuery,
+    paymentMethodsData: paymentMethodsQuery.data ?? defaultMasterResponse,
+    categoriesData: categoriesQuery.data ?? defaultMasterResponse,
     createExpense: createMutation.mutateAsync,
   };
 };
