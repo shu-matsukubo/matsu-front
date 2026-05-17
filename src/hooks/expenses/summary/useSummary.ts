@@ -1,12 +1,15 @@
 import { useState } from 'react';
 
-import { useSummaryApi } from '@/hooks/expenses/api/useSummaryApi';
+import { useExpenseHistoryApi, useSummaryApi } from '@/hooks/expenses/api/useSummaryApi';
+import type { ExpenseSummary } from '@/schemas/expenses/summary';
 import { formatDate } from '@/utils/date/format';
 
 type DateRange = {
   startDate: string;
   endDate: string;
 };
+
+type SummaryGroupBy = 'category' | 'payment_method';
 
 const getMonthStart = (date: Date): Date => new Date(date.getFullYear(), date.getMonth(), 1);
 
@@ -54,9 +57,15 @@ export const useSummary = () => {
   const [endDate, setEndDate] = useState(defaultRange.endDate);
   const [searchRange, setSearchRange] = useState<DateRange>(defaultRange);
   const [dateError, setDateError] = useState('');
-  const [groupBy, setGroupBy] = useState<'category' | 'payment_method'>('category');
+  const [groupBy, setGroupByState] = useState<SummaryGroupBy>('category');
+  const [selectedCategory, setSelectedCategory] = useState<ExpenseSummary | null>(null);
 
   const { data, isLoading } = useSummaryApi(searchRange.startDate, searchRange.endDate, groupBy);
+  const { data: historyData, isLoading: isHistoryLoading } = useExpenseHistoryApi(
+    searchRange.startDate,
+    searchRange.endDate,
+    selectedCategory?.category_id
+  );
 
   const search = () => {
     const range = resolveSearchRange(startDate, endDate);
@@ -70,6 +79,18 @@ export const useSummary = () => {
     setStartDate(range.startDate);
     setEndDate(range.endDate);
     setSearchRange(range);
+    setSelectedCategory(null);
+  };
+
+  const setGroupBy = (value: SummaryGroupBy) => {
+    setGroupByState(value);
+    setSelectedCategory(null);
+  };
+
+  const selectCategory = (row: ExpenseSummary) => {
+    if (!row.category_id) return;
+
+    setSelectedCategory(row);
   };
 
   return {
@@ -77,12 +98,17 @@ export const useSummary = () => {
     setStartDate,
     endDate,
     setEndDate,
+    searchRange,
     dateError,
     search,
     groupBy,
     setGroupBy,
+    selectedCategory,
+    selectCategory,
+    history: historyData,
     summary: data.data ?? [],
     meta: data.meta ?? [],
     isLoading,
+    isHistoryLoading,
   };
 };

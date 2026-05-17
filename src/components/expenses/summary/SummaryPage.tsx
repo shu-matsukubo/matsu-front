@@ -1,6 +1,8 @@
 import { BalanceTable } from './BalanceTable';
 import { FixedCostTable } from './FixedCostTable';
+import { HistoryTable } from './HistoryTable';
 import { TotalTable } from './TotalTable';
+import './summary.css';
 
 import { Button } from '@/components/common/Button';
 import { ButtonGroup } from '@/components/common/ButtonGroup';
@@ -12,13 +14,18 @@ export const SummaryPage = () => {
     setStartDate,
     endDate,
     setEndDate,
+    searchRange,
     dateError,
     search,
     groupBy,
     setGroupBy,
+    selectedCategory,
+    selectCategory,
+    history,
     summary,
     meta,
     isLoading,
+    isHistoryLoading,
   } = useSummary();
   if (isLoading) return <p>Loading...</p>;
 
@@ -55,8 +62,25 @@ export const SummaryPage = () => {
         />
       </div>
 
-      {groupBy === 'category' && <BalanceTable data={summary} />}
+      {groupBy === 'category' && (
+        <BalanceTable
+          data={summary}
+          selectedCategoryId={selectedCategory?.category_id}
+          onRowClick={selectCategory}
+        />
+      )}
       {groupBy === 'payment_method' && <BalanceTable data={summary} />}
+
+      {groupBy === 'category' && selectedCategory && (
+        <HistoryTable
+          categoryName={selectedCategory.category_name ?? ''}
+          totalAmount={selectedCategory.net_amount}
+          startDate={searchRange.startDate}
+          endDate={searchRange.endDate}
+          data={history}
+          isLoading={isHistoryLoading}
+        />
+      )}
 
       <FixedCostTable data={meta.fixed_costs} />
     </div>
