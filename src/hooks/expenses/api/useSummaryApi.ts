@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { fetchExpenseSummary } from '@/api/expenses/summary';
-import { formatMonth } from '@/utils/date/format';
 
 const defaultResponse = {
   data: [],
@@ -10,12 +10,10 @@ const defaultResponse = {
   },
 };
 
-export const useSummaryApi = (currentMonth: Date, groupBy: string) => {
-  const month = formatMonth(currentMonth);
-
+export const useSummaryApi = (startDate: string, endDate: string, groupBy: string) => {
   const query = useQuery({
-    queryKey: ['expenseSummary', month, groupBy],
-    queryFn: () => fetchExpenseSummary(month, groupBy),
+    queryKey: ['expenseSummary', startDate, endDate, groupBy],
+    queryFn: () => fetchExpenseSummary({ startDate, endDate, groupBy }),
   });
 
   return {
