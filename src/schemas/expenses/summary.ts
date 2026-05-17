@@ -20,7 +20,14 @@ export const ExpenseSummarySchema = z.object({
 
 export const ExpenseSummaryMetaSchema = z.object({
   total_net_amount: z.number(),
-  fixed_cost_net_amount: z.number(),
+  fixed_cost_net_amount: z.number().optional(),
+  fixed_costs: z
+    .array(z.object({
+      name: z.string(),
+      payment_date: z.string(),
+      amount: z.number(),
+    }))
+    .default([]),
 });
 
 export const ExpenseSummaryResponseSchema = z.object({

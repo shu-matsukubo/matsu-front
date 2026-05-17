@@ -1,4 +1,5 @@
 import { BalanceTable } from './BalanceTable';
+import { FixedCostTable } from './FixedCostTable';
 import { TotalTable } from './TotalTable';
 
 import { Button } from '@/components/common/Button';
@@ -56,6 +57,8 @@ export const SummaryPage = () => {
 
       {groupBy === 'category' && <BalanceTable data={summary} />}
       {groupBy === 'payment_method' && <BalanceTable data={summary} />}
+
+      <FixedCostTable data={meta.fixed_costs} />
     </div>
   );
 };

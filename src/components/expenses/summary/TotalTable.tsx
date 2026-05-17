@@ -9,14 +9,12 @@ export const TotalTable = ({ data }: Props) => {
     <table>
       <thead>
         <tr>
-          <th className="text-center text-lg">合計利用金額</th>
-          <th className="text-center text-lg">固定費</th>
+          <th className="text-center text-lg">合計</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td className="border text-center text-md">{data.total_net_amount ?? 0}</td>
-          <td className="border text-center text-md">{data.fixed_cost_net_amount ?? 0}</td>
         </tr>
       </tbody>
     </table>

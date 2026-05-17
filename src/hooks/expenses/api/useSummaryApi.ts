@@ -7,6 +7,7 @@ const defaultResponse = {
   meta: {
     total_net_amount: 0,
     fixed_cost_net_amount: 0,
+    fixed_costs: [],
   },
 };
 
