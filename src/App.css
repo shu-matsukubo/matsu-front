@@ -1,0 +1,6 @@
+.app-toolbar {
+  width: min(100%, 960px);
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
