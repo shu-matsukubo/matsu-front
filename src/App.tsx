@@ -7,13 +7,14 @@ import './styles/utilities/index.css';
 import './styles/index.css';
 import { IconSample } from './components/icons';
 import { Button } from './components/common/Button';
-import { clearAuthTokens, getAccessToken } from './auth/session';
+import { getSession, logout } from './auth/session';
 import { LoginPage } from './pages/auth/LoginPage';
 import { LogOut } from 'lucide-react';
 
 function App() {
   const [page, setPage] = useState<'summary' | 'create'>('summary');
-  const [authenticated, setAuthenticated] = useState(() => Boolean(getAccessToken()));
+  const [authenticated, setAuthenticated] = useState(false);
+  const [checkingSession, setCheckingSession] = useState(true);
 
   useEffect(() => {
     const handleExpired = () => {
@@ -23,16 +24,31 @@ function App() {
 
     window.addEventListener('kakeibo:auth-expired', handleExpired);
 
+    getSession()
+      .then((session) => {
+        setAuthenticated(session.authenticated);
+      })
+      .catch(() => {
+        setAuthenticated(false);
+      })
+      .finally(() => {
+        setCheckingSession(false);
+      });
+
     return () => {
       window.removeEventListener('kakeibo:auth-expired', handleExpired);
     };
   }, []);
 
-  const handleLogout = () => {
-    clearAuthTokens();
+  const handleLogout = async () => {
+    await logout().catch(() => undefined);
     setAuthenticated(false);
     setPage('summary');
   };
+
+  if (checkingSession) {
+    return null;
+  }
 
   if (!authenticated) {
     return <LoginPage onAuthenticated={() => setAuthenticated(true)} />;

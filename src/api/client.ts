@@ -1,31 +1,19 @@
 import axios from 'axios';
 import type { AxiosError, InternalAxiosRequestConfig } from 'axios';
-import {
-  clearAuthTokens,
-  getAccessToken,
-  notifyAuthExpired,
-  refreshAuthTokens,
-} from '@/auth/session';
+import { notifyAuthExpired, refreshSession } from '@/auth/session';
 
 export const api = axios.create({
-  baseURL: 'http://localhost:18080/api',
+  baseURL: import.meta.env.VITE_BFF_BASE_URL
+    ? `${import.meta.env.VITE_BFF_BASE_URL}/api`
+    : 'http://localhost:18082/api',
+  withCredentials: true,
 });
 
 type RetriableRequestConfig = InternalAxiosRequestConfig & {
   _retry?: boolean;
 };
 
-let refreshPromise: Promise<string | null> | null = null;
-
-api.interceptors.request.use((config) => {
-  const token = getAccessToken();
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
+let refreshPromise: Promise<void> | null = null;
 
 api.interceptors.response.use(
   (response) => response,
@@ -39,20 +27,13 @@ api.interceptors.response.use(
     originalRequest._retry = true;
 
     try {
-      refreshPromise ??= refreshAuthTokens().finally(() => {
+      refreshPromise ??= refreshSession().finally(() => {
         refreshPromise = null;
       });
 
-      const token = await refreshPromise;
-
-      if (!token) {
-        throw new Error('Refresh token is missing.');
-      }
-
-      originalRequest.headers.Authorization = `Bearer ${token}`;
+      await refreshPromise;
       return api(originalRequest);
     } catch (refreshError) {
-      clearAuthTokens();
       notifyAuthExpired();
       return Promise.reject(refreshError);
     }
