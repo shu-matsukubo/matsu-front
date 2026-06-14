@@ -1,4 +1,3 @@
-/* eslint-disable quotes, indent, no-unused-expressions */
 /**
  * Prettier設定ファイル
  * コードフォーマットのルールを定義
