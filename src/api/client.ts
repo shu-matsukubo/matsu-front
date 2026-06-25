@@ -5,7 +5,7 @@ import { notifyAuthExpired, refreshSession } from '@/auth/session';
 export const api = axios.create({
   baseURL: import.meta.env.VITE_BFF_BASE_URL
     ? `${import.meta.env.VITE_BFF_BASE_URL}/api`
-    : 'http://localhost:18082/api',
+    : 'http://localhost:18083/api',
   withCredentials: true,
 });
 
@@ -16,7 +16,7 @@ type RetriableRequestConfig = InternalAxiosRequestConfig & {
 let refreshPromise: Promise<void> | null = null;
 
 api.interceptors.response.use(
-  (response) => response,
+  response => response,
   async (error: AxiosError) => {
     const originalRequest = error.config as RetriableRequestConfig | undefined;
 
@@ -37,5 +37,5 @@ api.interceptors.response.use(
       notifyAuthExpired();
       return Promise.reject(refreshError);
     }
-  },
+  }
 );
