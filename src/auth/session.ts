@@ -36,5 +36,5 @@ export const getSession = async () => {
 };
 
 export const notifyAuthExpired = () => {
-  window.dispatchEvent(new Event('kakeibo:auth-expired'));
+  window.dispatchEvent(new Event('matsu:auth-expired'));
 };
