@@ -55,6 +55,28 @@ API requests use the BFF `/api/*` proxy. The frontend must not store access or r
 
 On Windows PowerShell, use `npm.cmd run ...` if `npm.ps1` is blocked by execution policy.
 
+## Docker
+
+Start a production-like static container:
+
+```bash
+docker compose up -d --build
+```
+
+The app is served through Nginx at:
+
+```text
+http://localhost:5173
+```
+
+Start the Vite dev server in Docker with hot reload:
+
+```bash
+docker compose --profile dev up front-dev
+```
+
+The Docker build uses `VITE_BFF_BASE_URL=http://localhost:18082` by default so the browser calls the local BFF.
+
 ## Main Directories
 
 - `src/api`: Axios client and API request modules.
